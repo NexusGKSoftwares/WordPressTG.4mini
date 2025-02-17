@@ -2,14 +2,14 @@
 
 import { useState } from "react"
 import { UserButton } from "@clerk/clerk-react"
-import { ThemeGenerator } from "@/Components/theme-generator"
+import { ThemeGenerator } from "@/components/theme-generator"
 import { Button } from "@/components/ui/button"
 import { Sparkles, Lightbulb } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
 export default function ThemeGeneratorPage() {
   const navigate = useNavigate()
-  const [savedThemes, setSavedThemes] = useState([])
+  const [savedThemes] = useState([])
 
   return (
     <div className="min-h-screen bg-background">
@@ -34,7 +34,7 @@ export default function ThemeGeneratorPage() {
       </header>
 
       <main className="container mx-auto p-4 pt-8">
-        <ThemeGenerator savedThemes={savedThemes} />
+        <ThemeGenerator savedThemes={savedThemes} userId={""} />
       </main>
     </div>
   )

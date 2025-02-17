@@ -19,54 +19,13 @@ interface ThemeGeneratorProps {
   userId: string
 }
 
-export function ThemeGenerator({ savedThemes, userId }: ThemeGeneratorProps) {
-  const [prompt, setPrompt] = React.useState("")
-  const [generating, setGenerating] = React.useState(false)
+export function ThemeGenerator({ savedThemes }: ThemeGeneratorProps) {
+  const [] = React.useState("")
+  const [] = React.useState(false)
   const [currentTheme, setCurrentTheme] = React.useState<any>(null)
-  const [selectedFeatures, setSelectedFeatures] = React.useState<string[]>([])
+  const [] = React.useState<string[]>([])
   const { toast } = useToast()
 
-  const handleGenerate = async () => {
-    try {
-      setGenerating(true)
-
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "user-id": userId,
-        },
-        body: JSON.stringify({
-          prompt,
-          themeType: document.querySelector("[name=theme-type]")?.value,
-          colorScheme: document.querySelector("[name=color-scheme]")?.value,
-          layout: document.querySelector("[name=layout-style]")?.value,
-          typography: document.querySelector("[name=typography]")?.value,
-          features: selectedFeatures,
-        }),
-      })
-
-      const data = await response.json()
-
-      if (data.success) {
-        setCurrentTheme(data.theme)
-        toast({
-          title: "Theme generated successfully!",
-          description: "Your custom WordPress theme is ready.",
-        })
-      } else {
-        throw new Error(data.error)
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to generate theme. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setGenerating(false)
-    }
-  }
 
   const handleExportToWordPress = async () => {
     try {
@@ -76,7 +35,7 @@ export function ThemeGenerator({ savedThemes, userId }: ThemeGeneratorProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          siteUrl: prompt("Enter your WordPress site URL:"),
+          siteUrl: window.prompt("Enter your WordPress site URL:"),
           username: prompt("Enter your WordPress username:"),
           password: prompt("Enter your WordPress password:"),
           theme: currentTheme,

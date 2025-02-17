@@ -1,6 +1,26 @@
 import axios from "axios"
 import { createClient } from "@supabase/supabase-js"
-import type { Database } from "./types/supabase"
+// Define the Database type inline if the module is missing
+interface Database {
+  public: {
+    Tables: {
+      themes: {
+        Row: {
+          id: string
+          created_at: string
+          // Add other fields as necessary
+        }
+      }
+      theme_assets: {
+        Row: {
+          id: string
+          created_at: string
+          // Add other fields as necessary
+        }
+      }
+    }
+  }
+}
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -59,10 +79,10 @@ export const uploadToWordPress = async (
 // Real-time subscriptions
 export const subscribeToThemeUpdates = (userId: string, onUpdate: (theme: Theme) => void) => {
   return supabase
-    .from("themes")
-    .on("INSERT", (payload) => {
+    .channel('public:themes')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'themes' }, (payload) => {
       if (payload.new.user_id === userId) {
-        onUpdate(payload.new)
+        onUpdate(payload.new as Theme)
       }
     })
     .subscribe()
