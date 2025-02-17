@@ -7,24 +7,12 @@ import SignInPage from "./pages/SignIn";
 import ThemeGeneratorPage from "./pages/ThemeGenerator";
 import SuggestionsPage from "./pages/Suggestions";
 
-// Load Clerk Publishable Key from environment variables
-/// <reference types="vite/client" />
-
-interface ImportMetaEnv {
-  readonly VITE_API_URL: string;
-  // Add other environment variables here...
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
-
-
-const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "";
 
 if (!CLERK_PUBLISHABLE_KEY) {
   console.error("❌ Missing Clerk Publishable Key! Check your .env file.");
 }
+
 
 function App() {
   return (
